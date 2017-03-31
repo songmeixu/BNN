@@ -4,6 +4,7 @@
 
 const static int binary_kernel_size = 32;
 
+// get ceiling result of int divide, used for getting matrix boundary
 int ceiling(int x, int y) {
     assert(x>0);
     return 1 + ((x - 1) / y);
@@ -34,6 +35,7 @@ int Mat2BMatByRow(const float *in, int in_row, int in_col, uint *out, int out_ro
     return 0;
 }
 
+// float matrix * binary matrix (this happen at first layer where input features are float)
 int MatBMat(const float *in1, int row1, int col1, const uint *in2, int row2, int col2, float *out) {
     assert (col1 <= row2 * binary_kernel_size && col1 > (row2-1) * binary_kernel_size);
     memset(out, 0, sizeof(float) * row1 * col2);
@@ -57,6 +59,7 @@ int MatBMat(const float *in1, int row1, int col1, const uint *in2, int row2, int
     return 0;
 }
 
+// Binary matrix * Binary matrix
 // Temporarily, we only support the number of neurons is 32x
 // To support arbitrary neurons: pending
 int BMatBMat(const uint *in1, int row1, int col1, const uint *in2, int row2, int col2, float *out) {
